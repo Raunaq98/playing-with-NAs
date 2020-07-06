@@ -57,3 +57,63 @@ print(my_na)
 
 sum(my_na)
 #[1] 55
+
+###### REMOVING NAS FROM VECTORS
+
+faulty_data <- c(1,2,NA,5,6,NA,9)  # created a vector that has NAs
+print(faulty_data)
+
+fault <- is.na(faulty_data)   #created vector "fault" that contains fault flags for previous vector
+print(fault)
+
+corrected_data <- faulty_data[!fault]
+print(corrected_data) #printed original vector without the faults
+
+temporary1<- c( -1, -5,0,NA, 7,NA,-3,NA,9)
+# we want the data that is positive as well as free of NA
+
+temporary1[ !is.na(temporary1) & temporary1 > 0]
+
+
+##### SUBSET OF TWO VECTORS WHILE REMOVING NAS
+
+temp1 <- c(1,2,3,NA,5,NA,7,8,9,10)
+temp2 <- c(11,NA,NA,14,NA,16,NA,NA,NA,20)
+print(temp1)
+print(temp2)
+
+good<- complete.cases(temp1,temp2)     # this functions gives positions at which both vectors are present
+print(good)
+
+#   [1]  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE TRUE
+
+temp1[good]    #gives elements of temp1 that have some corresponding element in temp2
+# [1]  1 10
+temp2[good]    #gives elements of temp2 that have some corresponding element in temp1
+# [1] 11 20
+
+
+#### REMOVING NAS FROM DATA FRAMES
+
+# using a pre loaded data set "airquality"
+
+air<- airquality[1:6,]
+
+#     Ozone Solar.R  Wind Temp Month Day
+#  1    41     190   7.4   67     5   1
+#  2    36     118   8.0   72     5   2
+#  3    12     149  12.6   74     5   3
+#  4    18     313  11.5   62     5   4
+#  5    NA      NA  14.3   56     5   5
+#  6    28      NA  14.9   66     5   6
+
+correct<-complete.cases(air)
+air[correct,]
+#look at nested list subsetting to understand
+# basically it wants rows that are good AND the rows 1:6
+
+#     Ozone Solar.R   Wind Temp  Month Day
+#  1    41     190    7.4   67     5   1
+#  2    36     118    8.0   72     5   2
+#  3    12     149   12.6   74     5   3
+#  4    18     313   11.5   62     5   4
